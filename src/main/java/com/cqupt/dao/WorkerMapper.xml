@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cqupt.dao.WorkerMapper">
+  <resultMap id="BaseResultMap" type="com.cqupt.entity.Worker">
+    <id column="name" jdbcType="VARCHAR" property="name" />
+    <result column="price_day" jdbcType="DOUBLE" property="priceDay" />
+    <result column="price_hour" jdbcType="DOUBLE" property="priceHour" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    name, price_day, price_hour
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from worker
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+  <select id="queryAllWorkers" resultMap="BaseResultMap">
+    select name,price_day,price_hour from worker
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from worker
+    where name = #{name,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cqupt.entity.Worker">
+    insert into worker (name, price_day, price_hour
+      )
+    values (#{name,jdbcType=VARCHAR}, #{priceDay,jdbcType=DOUBLE}, #{priceHour,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cqupt.entity.Worker">
+    insert into worker
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="priceDay != null">
+        price_day,
+      </if>
+      <if test="priceHour != null">
+        price_hour,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="priceDay != null">
+        #{priceDay,jdbcType=DOUBLE},
+      </if>
+      <if test="priceHour != null">
+        #{priceHour,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cqupt.entity.Worker">
+    update worker
+    <set>
+      <if test="priceDay != null">
+        price_day = #{priceDay,jdbcType=DOUBLE},
+      </if>
+      <if test="priceHour != null">
+        price_hour = #{priceHour,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where name = #{name,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cqupt.entity.Worker">
+    update worker
+    set price_day = #{priceDay,jdbcType=DOUBLE},
+      price_hour = #{priceHour,jdbcType=DOUBLE}
+    where name = #{name,jdbcType=VARCHAR}
+  </update>
+</mapper>
