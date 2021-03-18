@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cqupt.dao.CountMapper">
+  <resultMap id="BaseResultMap" type="com.cqupt.entity.Count">
+    <id column="name" jdbcType="VARCHAR" property="name" />
+    <result column="total_day" jdbcType="DOUBLE" property="totalDay" />
+    <result column="total_hour" jdbcType="DOUBLE" property="totalHour" />
+    <result column="total_wages" jdbcType="DOUBLE" property="totalWages" />
+    <result column="paid_wages" jdbcType="DOUBLE" property="paidWages" />
+    <result column="not_paid_wages" jdbcType="DOUBLE" property="notPaidWages" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    name, total_day, total_hour, total_wages, paid_wages, not_paid_wages
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from count
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from count
+    where name = #{name,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cqupt.entity.Count">
+    insert into count (name, total_day, total_hour, 
+      total_wages, paid_wages, not_paid_wages
+      )
+    values (#{name,jdbcType=VARCHAR}, #{totalDay,jdbcType=DOUBLE}, #{totalHour,jdbcType=DOUBLE}, 
+      #{totalWages,jdbcType=DOUBLE}, #{paidWages,jdbcType=DOUBLE}, #{notPaidWages,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cqupt.entity.Count">
+    insert into count
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="totalDay != null">
+        total_day,
+      </if>
+      <if test="totalHour != null">
+        total_hour,
+      </if>
+      <if test="totalWages != null">
+        total_wages,
+      </if>
+      <if test="paidWages != null">
+        paid_wages,
+      </if>
+      <if test="notPaidWages != null">
+        not_paid_wages,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="totalDay != null">
+        #{totalDay,jdbcType=DOUBLE},
+      </if>
+      <if test="totalHour != null">
+        #{totalHour,jdbcType=DOUBLE},
+      </if>
+      <if test="totalWages != null">
+        #{totalWages,jdbcType=DOUBLE},
+      </if>
+      <if test="paidWages != null">
+        #{paidWages,jdbcType=DOUBLE},
+      </if>
+      <if test="notPaidWages != null">
+        #{notPaidWages,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cqupt.entity.Count">
+    update count
+    <set>
+      <if test="totalDay != null">
+        total_day = #{totalDay,jdbcType=DOUBLE},
+      </if>
+      <if test="totalHour != null">
+        total_hour = #{totalHour,jdbcType=DOUBLE},
+      </if>
+      <if test="totalWages != null">
+        total_wages = #{totalWages,jdbcType=DOUBLE},
+      </if>
+      <if test="paidWages != null">
+        paid_wages = #{paidWages,jdbcType=DOUBLE},
+      </if>
+      <if test="notPaidWages != null">
+        not_paid_wages = #{notPaidWages,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where name = #{name,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cqupt.entity.Count">
+    update count
+    set total_day = #{totalDay,jdbcType=DOUBLE},
+      total_hour = #{totalHour,jdbcType=DOUBLE},
+      total_wages = #{totalWages,jdbcType=DOUBLE},
+      paid_wages = #{paidWages,jdbcType=DOUBLE},
+      not_paid_wages = #{notPaidWages,jdbcType=DOUBLE}
+    where name = #{name,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectAllCount" resultMap="BaseResultMap">
+    select * from count
+  </select>
+</mapper>

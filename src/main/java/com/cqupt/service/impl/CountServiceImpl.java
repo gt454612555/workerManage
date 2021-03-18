@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 @Service
 public class CountServiceImpl implements CountService {
@@ -91,6 +94,19 @@ public class CountServiceImpl implements CountService {
         }
         //现在的count对象更新进数据库
         int updateRes = countDao.updateByPrimaryKey(count);
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateStr = sdf1.format(new Date());
+        String paidLog = dateStr+"    "+name+"结账："+paid+"元"+"\r\n";
+        try {
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("E:\\ideaProject\\SSMworkspace\\workerManage\\src\\main\\resources\\logTxt\\paidLogs.txt",true)));
+            out.write(paidLog);
+            out.flush();
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return updateRes != 0;
     }
 

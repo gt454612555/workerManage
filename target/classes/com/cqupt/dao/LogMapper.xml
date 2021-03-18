@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cqupt.dao.LogMapper">
+  <resultMap id="BaseResultMap" type="com.cqupt.entity.Log">
+    <result column="date" jdbcType="DATE" property="date" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="time_day" jdbcType="DOUBLE" property="timeDay" />
+    <result column="time_hour" jdbcType="DOUBLE" property="timeHour" />
+    <result column="wages" jdbcType="DOUBLE" property="wages" />
+    <result column="is_paid" jdbcType="BIT" property="isPaid" />
+  </resultMap>
+  <insert id="insert" parameterType="com.cqupt.entity.Log">
+    insert into log (date, name, time_day, 
+      time_hour, wages, is_paid)
+    values (#{date,jdbcType=DATE}, #{name,jdbcType=VARCHAR}, #{timeDay,jdbcType=DOUBLE}, 
+      #{timeHour,jdbcType=DOUBLE}, #{wages,jdbcType=DOUBLE}, #{isPaid,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cqupt.entity.Log">
+    insert into log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="date != null">
+        date,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="timeDay != null">
+        time_day,
+      </if>
+      <if test="timeHour != null">
+        time_hour,
+      </if>
+      <if test="wages != null">
+        wages,
+      </if>
+      <if test="isPaid != null">
+        is_paid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="date != null">
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="timeDay != null">
+        #{timeDay,jdbcType=DOUBLE},
+      </if>
+      <if test="timeHour != null">
+        #{timeHour,jdbcType=DOUBLE},
+      </if>
+      <if test="wages != null">
+        #{wages,jdbcType=DOUBLE},
+      </if>
+      <if test="isPaid != null">
+        #{isPaid,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="countLogs" parameterType="java.util.Date" resultType="java.lang.Integer">
+    select count(*) from log where date=#{date}
+  </select>
+  <select id="selectByDateAndName" parameterType="Map" resultMap="BaseResultMap">
+    select * from log lg where lg.date=#{date}and lg.name=#{name}
+  </select>
+  <select id="selectByDate" parameterType="java.util.Date" resultMap="BaseResultMap">
+    select * from log where name = #{name}
+  </select>
+</mapper>
